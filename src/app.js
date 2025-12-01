@@ -1,35 +1,20 @@
-const express = require('express');
+const express = require("express");
 
 const app = express();
 
-// app.get("/user", (req, res)=> {
-//     console.log(req.query)
-//     res.send({firstName: "shashank", LastName: "sagar"});
-// });
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
+app.use("/admin", adminAuth);
+app.use("/user", userAuth);
 
-// app.get("/user/:userId/:name/:password", (req, res)=> {
-//     console.log(req.params);
-//     res.send({firstName: "shashank", LastName: "sagar"});
-// });
-
-//GET / Users => middleware chain => request handlet
-
-app.use("/", (req, res, next)=> {
-    // res.send("handling / route");
-    next();
+app.get("/admin/getAllData", (req, res) => {
+  res.send("all  data sent");
 });
 
-app.get("/user", (req, res, next)=> {
-    console.log("Handleing /user routes");
-    next();
-},
-(req, res, next)=> {
-    res.send("1st Route Handler");
-},(req, res, next)=> {
-    res.send("2nd Route Handler");
+app.get("/admin/deleteUser", (req, res) => {
+  res.send("Delete data sent");
 });
- 
-app.listen(4000, ()=> {
-    console.log('Server is running on port 4000 ...');
+
+app.listen(4000, () => {
+  console.log("Server is running on port 4000 ...");
 });
